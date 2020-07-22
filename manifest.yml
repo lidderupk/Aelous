@@ -1,0 +1,4 @@
+---
+applications:
+ - name: Aelous
+   memory: 128M
