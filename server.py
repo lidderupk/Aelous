@@ -4,7 +4,6 @@ from flask import jsonify
 import os
 from flask import Flask,render_template,request,jsonify
 import io
-import tensorflow as tf
 import xarray as xr
 import datetime
 import pandas as pd
@@ -12,9 +11,6 @@ import numpy as np
 from sklearn.preprocessing import MinMaxScaler
 from math import sqrt
 from numpy import concatenate
-from tensorflow import keras
-from keras.models import Sequential
-from keras.layers import Dense, Activation
 import urllib3, requests, json
 
 
@@ -47,7 +43,7 @@ app = Flask(__name__,static_folder=STATIC_FOLDER)
 
 # On IBM Cloud Cloud Foundry, get the port number from the environment variable PORT
 # When running this app on the local machine, default the port to 8000
-port = int(os.getenv('PORT', 8000))
+port = int(os.getenv('PORT', 8080))
 
 import types
 import pandas as pd
@@ -72,6 +68,7 @@ def data_gathering(latitude, longitude):
     streaming_body_1 = client_61a8ad3366a84b259305286667ebbe16.get_object(Bucket='wind-donotdelete-pr-mfmqvi2eaqqced', Key='download.nc')['Body']
     # add missing __iter__ method so pandas accepts body as file-like object
     if not hasattr(streaming_body_1, "__iter__"): streaming_body_1.__iter__ = types.MethodType( __iter__, streaming_body_1 ) 
+
 
     info=data.read()
     nc = xr.open_dataset(info)
